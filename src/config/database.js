@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import config from './config.js'
 
-mongoose.connect('');
+mongoose.connect(config.mongo_url)
+
 
 const db = mongoose.connection;
 

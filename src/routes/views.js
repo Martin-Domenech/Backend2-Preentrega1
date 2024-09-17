@@ -1,18 +1,21 @@
 import { Router } from 'express';
-import { isAuthenticated, isNotAuthenticated } from '../middleware/auth.js';
+import { authorization, passportCall } from '../utils.js';
+
 
 const router = Router();
 
-router.get('/login', isNotAuthenticated, (req, res) => {
+
+router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/register', isNotAuthenticated, (req, res) => {
+router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.get('/profile', isAuthenticated, (req, res) => {
-    res.render('profile', { user: req.session.user });
-});
+router.get('/current', passportCall('jwt'), authorization('user'), (req, res) => {
+    res.render('current', { user: req.user });
+})
 
 export default router;
+ 
